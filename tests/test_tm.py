@@ -28,6 +28,11 @@ class Testtm(object):
         tape_alphabet = set(["0", "x", "_"])
         tm_tape_alphabet = create_tm.get_tape_alphabet()
         assert tape_alphabet == tm_tape_alphabet
+    
+    def test_parse_line_for_tm_start_state(self, create_tm):
+        start_state = "q1"
+        tm_start_state = create_tm.get_start_state()
+        assert start_state == tm_start_state
 
 
    
