@@ -17,7 +17,13 @@ class Testtm(object):
     def test_parse_line_for_tm_states(self, create_tm):
         states = set(["q1", "q2", "q3", "q4" ,"q5","accept","reject"])
         tm_states = create_tm.get_states()
-        assert create_tm.states == tm_states
+        assert states == tm_states
+    
+    def test_parse_line_for_tm_input_alphabet(self, create_tm):
+        alphabet = set("0")
+        tm_alphabet = create_tm.get_input_alphabet()
+        assert alphabet == tm_alphabet
+
 
    
    
