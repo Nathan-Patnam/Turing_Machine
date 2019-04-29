@@ -23,6 +23,11 @@ class Testtm(object):
         alphabet = set("0")
         tm_alphabet = create_tm.get_input_alphabet()
         assert alphabet == tm_alphabet
+    
+    def test_parse_line_for_tm_tape_alphabet(self, create_tm):
+        tape_alphabet = set(["0", "x", "_"])
+        tm_tape_alphabet = create_tm.get_tape_alphabet()
+        assert tape_alphabet == tm_tape_alphabet
 
 
    
