@@ -52,6 +52,53 @@ class TM:
         direction_change = items[4]
 
         self.transitions[(start_state, read_character)] = (write_character, end_state, direction_change)
+    
+
+    def get_decision(self, line):
+        self.tape = []
+        current_state = self.start_state
+        self.load_input_into_tape(line)
+        current_place_tape_index = 0
+
+        input_character = self.tape[current_place_tape_index]
+
+
+        while True:
+            if current_state == "accept":
+                return "accept"
+            elif self.is_transition_possible(current_state, input_character):
+                next_steps = self.transitions[(current_state, input_character)]
+                write_character = next_steps[0]
+                end_state = next_steps[1]
+                direction = next_steps[2]
+
+                self.tape[current_place_tape_index] = write_character
+                
+                current_state = end_state
+                
+                if direction == "L" :
+                    if current_place_tape_index >= 1: 
+                        current_place_tape_index -= 1
+                
+                elif direction == "R":
+                    current_place_tape_index += 1
+                    if current_place_tape_index >= len(line):
+                        self.tape.append("_")
+                input_character = self.tape[current_place_tape_index]
+
+            
+            else:
+                return "reject"
+    
+
+    
+    def load_input_into_tape(self, input_string):
+        for char in input_string:
+            self.tape.append(char)
+    
+    def is_transition_possible(self, curr_state, input_char):
+        search_record = (curr_state, input_char)
+        return search_record in self.transitions
 
 
     def convert_comma_seperated_string_to_set(self, line):
@@ -83,4 +130,18 @@ class TM:
     
     
 
+def main():
+    tm = TM("tests/set_2/tm.txt")
+    fh_input = open("tests/set_2/input.txt")
+    fh_output = open("tests/set_2/output.txt", "w")
+    lines = fh_input.readlines()
+    for line in lines:
+        line = tm.remove_whitespace_and_newline(line)
+        decision = tm.get_decision(line)
+        fh_output.write(decision + "\n")
+        
+        
 
+
+
+main()

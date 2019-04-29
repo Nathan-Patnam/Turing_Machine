@@ -30,7 +30,7 @@ class Testtm(object):
         tm_start_state = create_tm.get_start_state()
         assert start_state == tm_start_state
 
-    def test_parse_lines_for_tm_transitions(sxelf, create_tm):
+    def test_parse_lines_for_tm_transitions(self, create_tm):
         transitions = {
 
             ("q1", "0"): ("_", 'q2', "R"),
@@ -52,3 +52,22 @@ class Testtm(object):
 
         tm_transitions = create_tm.get_transitions()
         assert transitions == tm_transitions
+    
+    def test_accept_string_0(self, create_tm):
+        input_string = "0"
+        accept_string = True
+
+        tm_decision = create_tm.get_decision(input_string)
+        assert accept_string == tm_decision
+
+    """
+    accept
+    accept
+    reject
+    accept
+    reject
+    reject
+    reject
+    accept
+
+    """
