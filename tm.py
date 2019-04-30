@@ -55,17 +55,24 @@ class TM:
     
 
     def get_decision(self, line):
-        self.tape = []
-        current_state = self.start_state
         self.load_input_into_tape(line)
+        current_state = self.start_state
+
+        if line == "":
+            if current_state == "accept":
+                return "accept"
+            else:
+                return "reject"
+
         current_place_tape_index = 0
 
         input_character = self.tape[current_place_tape_index]
 
 
         while True:
-            if current_state == "accept":
-                return "accept"
+            if current_state == "accept" or current_state == "reject": 
+                return current_state
+                
             elif self.is_transition_possible(current_state, input_character):
                 next_steps = self.transitions[(current_state, input_character)]
                 write_character = next_steps[0]
@@ -93,6 +100,7 @@ class TM:
 
     
     def load_input_into_tape(self, input_string):
+        self.tape = []
         for char in input_string:
             self.tape.append(char)
     
@@ -131,14 +139,10 @@ class TM:
     
 
 def main():
-    tm = TM("tests/set_2/tm.txt")
-    fh_input = open("tests/set_2/input.txt")
-    fh_output = open("tests/set_2/output.txt", "w")
-    lines = fh_input.readlines()
-    for line in lines:
-        line = tm.remove_whitespace_and_newline(line)
-        decision = tm.get_decision(line)
-        fh_output.write(decision + "\n")
+    tm = TM("tests/set_1/tm.txt")
+    fh_input = open("tests/set_1/input.txt")
+    decision = tm.get_decision("00")
+    print(decision)
         
         
 

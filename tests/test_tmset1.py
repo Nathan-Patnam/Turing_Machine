@@ -4,7 +4,7 @@ import sys
 sys.path.append("..")  # Adds higher directory to python modules path.
 
 
-class Testtm(object):
+class Testtmset1(object):
     @pytest.fixture(scope="function")
     def create_tm(self):
         tm = TM("tests/set_1/tm.txt")
@@ -53,21 +53,24 @@ class Testtm(object):
         tm_transitions = create_tm.get_transitions()
         assert transitions == tm_transitions
     
-    def test_accept_string_0(self, create_tm):
-        input_string = "0"
-        accept_string = True
+    @pytest.fixture
+    def get_machine_result_for_set_1(self):
+        return [("", "reject"),
+                ("0", "accept"),
+                ("00", "accept"),
+                ("000", "reject"),
+                ("0000", "accept"),
+                ("00000", "reject"),
+                ("000000", "reject"),
+                ("0000000", "reject"),
+                ("00000000", "accept"),
+                ]
 
-        tm_decision = create_tm.get_decision(input_string)
-        assert accept_string == tm_decision
+    def test_inputs_on_dpda(self, create_tm, get_machine_result_for_set_1):
+        for input_output in get_machine_result_for_set_1:
+                input_string = input_output[0]
+                output = create_tm.get_decision(input_string)
+                expected_output_string = input_output[1]
+                assert output == expected_output_string
+    
 
-    """
-    accept
-    accept
-    reject
-    accept
-    reject
-    reject
-    reject
-    accept
-
-    """
